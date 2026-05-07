@@ -44,5 +44,4 @@ DELETE FROM Alunos WHERE mae = 'PATRICIA';
 ORDER BY data_nasc DESC;
 
 
-
-SELECT * from Alunos
+SELECT * from Alunos;
