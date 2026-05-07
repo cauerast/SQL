@@ -15,15 +15,12 @@ VALUES (862, 'MATEUS', '11990000000', 'Daniel', 'Clara', 2002-05-06),
         (103, 'LUCAS', '5498237746', 'Luis', 'Maria', 2006-07-12);
 
 
-
 -- 2.
 SELECT * FROM Alunos;
 
 
-
 -- 3.
 ALTER TABLE Alunos ADD COLUMN 'CPF';
-
 UPDATE Alunos SET CPF = '12345'
 WHERE RA = 862;
 UPDATE Alunos SET CPF = '6789'
@@ -36,4 +33,9 @@ WHERE RA = 103;
 SELECT CPF, nome FROM Alunos
 WHERE mae = 'Ana';
 
-SELECT * FROM Alunos;
+-- 5.
+DELETE FROM Alunos WHERE RA = 1002;
+
+-- 6.
+SELECT * FROM Alunos
+ORDER BY nome ASC;
