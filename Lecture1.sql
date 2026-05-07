@@ -6,7 +6,7 @@ CREATE TABLE Aluno(
   pai varchar(80),
   mae varchar(80),
   data_nasc date
-  );
+);
   
   -- COMANDO PARA INSERIR (CADASTRAR) UM REGISTRO NA TABELA:
 INSERT INTO Aluno
