@@ -8,41 +8,40 @@ CREATE TABLE Aluno(
   data_nasc date
 );
   
-  -- COMANDO PARA INSERIR (CADASTRAR) UM REGISTRO NA TABELA:
+-- Insert command
 INSERT INTO Aluno
 VALUES (102030, 'ANA', '16999450078', 'JOSE', 'MARIA', '2002-10-18'),
        (268975, 'PEDRO', '1699678595', 'PAULO', 'RAFAELA', '2000-09-28'),
        (596835, 'IVAN', '16999450256', 'AUGUSTO', 'PATRICIA', '2019-04-20');
-  
-   --COMANDO PARA SELECIONAR TODOS OS REGISTROS DE UMA TABELA:
- SELECT * FROM Aluno;
-  
-  --COMANDO PARA ACRESCENTAR UMA COLUNA NOVA A TABELAS:
- ALTER TABLE Aluno
- ADD email varchar(50);
-  
-  --COMANDO PARA EXCLUIR UMA COLUNA DA TABELA:
+
+-- Select command (show)
+SELECT * FROM Aluno;
+
+-- Alter table -> ADD - add a collumn:
+ALTER TABLE Aluno
+ADD email varchar(50);
+
+-- Command to delete a column
 ALTER TABLE Aluno
 DROP COLUMN pai;
   
-  --COMANDO PARA ATUALIZAR VALORES DE UMA COLUNA NA TABELA:
-  --CUIDADO! ESTE COMANDO PRECISA DE UM FILTRO PARA NAO AFETAR TODAS AS LINHAS DA TABELA!
+-- Command to update a column; Warning - This command had to implements a filter, in this case WHERE.
 UPDATE Aluno SET email = 'contato@aluno.com.br'
 WHERE RA = 102030;
   
-  --O COMANDO WHERE PODE ER USADO PARA FILTRAR LINHAS DA TABELA JUNTO COM OUTROS COMANDOS. EX:
+-- WHERE command can be used to filter a set of data
 SELECT * from Aluno
 WHERE RA > 150000;
-  
+
 SELECT * from Aluno
 WHERE mae <> 'ANA';
   
- --COMANDO PAR EXCLUIR REGISTRO DA TABELA (APAGAR A LINHA):
+-- Command to delete a row
 DELETE Aluno WHERE mae = 'PATRICIA';
  
- --VER O CONTEUDO DA TABELA APOS EXCLUIR TODOS OS REGISTROS:
-SELECT * from Aluno;
- 
- --ORDERNAR O RESULTADO DA CONSULTA:
-SELECT * from Aluno
+-- Order result by data_nasc in DECRESCENT way
 ORDER BY data_nasc DESC;
+
+
+
+SELECT * from Aluno
