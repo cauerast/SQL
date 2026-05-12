@@ -45,3 +45,6 @@ ORDER BY data_nasc DESC;
 
 
 SELECT * from Alunos;
+
+
+drop table Alunos;
