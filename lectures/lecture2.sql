@@ -1,4 +1,3 @@
--- Active: 1778113673688@@127.0.0.1@3306
 create database EscolaTeste;
 
 use EscolaTeste;
@@ -18,7 +17,7 @@ VALUES (102030, 'ANA', 'JOSE', 'claudio');
 
 -- adding a column 
 ALTER TABLE alunos
-ADD COLUMN naturalidade varchar(80);
+ADD naturalidade varchar(80);
 
 -- turning the name column not null
 ALTER TABLE alunos

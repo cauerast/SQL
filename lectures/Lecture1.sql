@@ -1,4 +1,3 @@
--- Active: 1778113673688@@127.0.0.1@3306
 CREATE TABLE Alunos(
   RA int,
   nome varchar(80),
@@ -31,20 +30,18 @@ UPDATE Alunos SET email = 'contato@Alunos.com.br'
 WHERE RA = 102030;
   
 -- WHERE command can be used to filter a set of data
-SELECT * from Alunos
+SELECT * FROM Alunos
 WHERE RA > 150000;
 
-SELECT * from Alunos
+SELECT * FROM Alunos
 WHERE mae <> 'ANA';
   
 -- Command to delete a row
 DELETE FROM Alunos WHERE mae = 'PATRICIA';
  
 -- Order result by data_nasc in DECRESCENT way
+SELECT * FROM Alunos
 ORDER BY data_nasc DESC;
-
-
-SELECT * from Alunos;
 
 
 drop table Alunos;

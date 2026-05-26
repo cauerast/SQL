@@ -14,15 +14,15 @@ values (100, 'folha de papel', 37.00);
 
 -- 2 --
 alter table produtos
-add column codigoCidade int;
+add codigoCidade int;
 alter table produtos
-add column nomeCidade varchar(80);
+add nomeCidade varchar(80);
 alter table produtos
-add column UF varchar(2);
+add UF varchar(2);
 
 -- 3 --
 alter table produtos
-add column codigoBarras varchar(80);
+add codigoBarras varchar(80);
 
 -- 4 --
 insert into produtos (codigo, descricao, preco, codigoBarras)
