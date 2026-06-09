@@ -159,7 +159,8 @@ WHERE e.codEsp IS NULL;
 -- 8) liste as consultas feitas pelo convenio UNIMED no mes de abril
 SELECT * 
 FROM consultas
-WHERE convenio = 'UNIMED'
+WHERE convenio = 'UNIMED' and 
+    data BETWEEN '2026/04/01' and '2026/04/30';
 
 -- 9) liste os nomes dos pacientes e os convenios que usaram nas suas consultas
 select p.nome as nomePaciente, c.convenio as convenioPaciente
