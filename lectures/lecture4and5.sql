@@ -178,9 +178,9 @@ WHERE c.codCon IS NULL;
 -- 11) Liste os convênios das consultas feitas por ORTOPEDISTAS
 select c.convenio
 from consultas as c INNER JOIN medicos as m
-on c.codMed = m.codMed
+    on c.codMed = m.codMed
 INNER JOIN especialidades as e
-on e.codEsp = m.codEsp
+    on e.codEsp = m.codEsp
 where e.nome = 'ORTOPEDISTA'
 
 -- 12) Liste os nomes e fones dos pacientes atendidos por PEDIATRAS ou DERMATOLOGISTAS em abril/2026
