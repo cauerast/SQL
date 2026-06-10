@@ -23,7 +23,7 @@ create table produtos (
 create table atendimentos (
     codAtendimento int PRIMARY KEY IDENTITY(1,1),
     situacao varchar(30),
-    dtHrChagada datetime, -- 
+    dtHrChegada datetime, -- yyy/MM/DD HH:mm:ss
     nroPessoas int,
     nroMesa int FOREIGN KEY REFERENCES mesas(nroMesa),
     codGarcom int FOREIGN KEY REFERENCES garcons(codGarcom)
@@ -67,42 +67,93 @@ values ('IGOR', 540.00),
        ('CLAUDIO', 20000.00)
 
 insert into atendimentos
-values ('ATENDENDO', '2026/04/01 21:45:32', 7),
-       ('ATENDIDO', '2026/04/03 17:42:21', 2),
-       ('NAO ATENDIDO', '2026/04/07 23:42:21', 3),
-       ('ATENDIDO', '2026/04/09 29:42:21', 4),
-       ('NAO ATENDIDO', '2026/04/11 01:21:11', 5),
-       ('ATENDIDO', '2026/04/13 12:42:21', 6),
-       ('NAO ATENDIDO', '2026/04/17 11:42:21', 7),
-       ('ATENDIDO', '2026/04/21 17:42:21', 8),
-       ('ATENDIDO', '2026/04/25 14:42:21', 11),
-       ('NAO ATENDIDO', '2026/04/29 22:45:32', 9)
+values ('ATENDENDO', '2026/04/01 21:45:32', 7, 1, 1),
+       ('ATENDIDO', '2026/04/03 17:42:21', 2, 4, 2),
+       ('NAO ATENDIDO', '2026/04/07 23:42:21', 3, 2, 3),
+       ('ATENDENDO', '2026/04/09 22:42:21', 4, 2, 1),
+       ('NAO ATENDIDO', '2026/04/11 01:21:11', 5, 5, 5),
+       ('ATENDIDO', '2026/04/13 12:42:21', 6, 1, 4),
+       ('ATENDENDO', '2026/04/17 11:42:21', 7, 2, 1),
+       ('ATENDIDO', '2026/04/21 17:42:21', 8, 4, 3),
+       ('ATENDIDO', '2026/04/25 14:42:21', 11, 3, 2),
+       ('NAO ATENDIDO', '2026/04/29 22:45:32', 9, 2, 1)
+
+insert into consumos
+values (2, 7.00, 9, 1),
+       (2, 9.00, 7, 2),
+       (3, 9.00, 5, 3),
+       (4, 9.00, 3, 4),
+       (2, 9.00, 8, 5),
+       (4, 9.00, 1, 6),
+       (2, 9.00, 9, 7),
+       (3, 9.00, 8, 8),
+       (3, 9.00, 7, 9),
+       (2, 9.00, 6, 9),
+       (4, 9.00, 5, 1),
+       (3, 9.00, 4, 8),
+       (2, 9.00, 3, 3),
+       (4, 9.00, 2, 5),
+       (2, 9.00, 1, 7)
 
 -- 2. Atualize o nome do garçom que possui o maior código para o seu nome.
-
+UPDATE garcons 
+SET nome = 'CAUE'
+WHERE codGarcom = (select max(codGarcom) from garcons);
 
 -- 3. Crie um campo para guardar o salário dos garçons.
-
+ALTER TABLE garcons
+ADD salario money
 
 -- 4. Liste os produtos e seus preços em ordem do mais caro para o mais barato.
-
+SELECT p.descricao, p.preco from produtos as p
+ORDER BY preco DESC
 
 -- 5. Liste o número e o setor das mesas que estão em atendimentos (atendimentos cuja situação seja ‘ATENDENDO’). Esta situação significa que os clientes ainda estão consumindo produtos.
+SELECT m.nroMesa, m.setor
+FROM mesas as m INNER JOIN atendimentos as a
+    ON m.nroMesa = a.nroMesa
+WHERE a.situacao = 'ATENDENDO'
 
 
 -- 6. Atualize os salários de cada garçom.
-
+update garcons
+set salario = CASE codGarcom
+    WHEN 1 THEN 2300
+    WHEN 2 THEN 3500
+    WHEN 3 THEN 1800
+    WHEN 4 THEN 2500
+    WHEN 5 THEN 4000
+END
 
 -- 7. Liste o seu salário caso você tivesse um aumento de salário de 15%. Não atualize seu novo salário, apenas o exiba com o possível aumento.
-
+select (g.salario * 1.15) as salario from garcons as g
+where g.nome = 'CAUE';
 
 -- 8. Cadastre uma nova mesa e 2 novos atendimentos para esta mesa. Você é o garçom que está atendendo estes clientes e eles já consumiram 3 produtos diferentes.
+insert into mesas
+values ('RUA', 2, 'RESERVADA')
 
+insert into atendimentos
+values ('ATENDENDO', '2026/04/13 12:42:21', 2, 6, 5),
+       ('ATENDENDO', '2026/04/13 12:43:38', 2, 6, 5)
+
+insert into consumos 
+values (1, 7.00, 1, 11),
+       (1, 9.00, 2, 11),
+       (1, 26.00, 3, 12)
 
 -- 9. Liste os produtos que nunca foram consumidos.
+SELECT p.descricao
+from produtos as p LEFT JOIN consumos as c
+    ON p.codPro = c.codPro
+WHERE c.codPro IS NULL;
 
-
--- 10. Liste os atendimentos já realizados no dia de hoje. Considere apenas atendimentos que já estão com situação de ‘FINALIZADO’, juntamente com os nomes dos garçons que fizeram tais atendimentos.
+-- 10. Liste os atendimentos realizados no dia 13/04. Considere apenas atendimentos que estão com situação de 'ATENDIDO', juntamente com os nomes dos garçons que fizeram tais atendimentos.
+SELECT a.*, g.nome
+FROM atendimentos as a INNER JOIN garcons as g
+    ON a.codGarcom = g.codGarcom
+WHERE (a.dtHrChegada BETWEEN '2026/04/13 00:00:00' and '2026/04/13 23:59:59')
+        and a.situacao = 'ATENDIDO'
 
 
 select * from mesas;
