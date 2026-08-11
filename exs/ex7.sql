@@ -14,7 +14,7 @@
 
 
 -- 2. Criação do Banco de Dados e Tabelas
-CREATE DATABASE exAula;
+CREATE DATABASE exAula
 GO
 USE exAula;
 
@@ -128,3 +128,44 @@ WHERE p.codCat IS NULL;
 UPDATE Produtos
 SET precoUnit = precoUnit + precoUnit * 0.05
 WHERE estoque < 400;
+
+
+-- Funcoes em SQL
+
+-- Max = retorna o valor maximo
+SELECT MAX(estoque) as maiorEstoque FROM Produtos;
+
+-- MIN = retorna o valor minimo
+SELECT MIN(estoque) as menorEstoque FROM Produtos;
+
+-- SUM = retorna o valor da coluna somado
+SELECT SUM(precoUnit) as precoTotal FROM Produtos;
+
+-- campo calculado
+select descricao, estoque, precoUnit, estoque * precoUnit as ValorEstoque
+FROM Produtos;
+
+-- SUM - Calcula a soma
+select SUM(estoque * precoUnit) as ValorTotalEstoque
+FROM Produtos
+
+-- AVG - Calcula a media
+select AVG(precoUnit) as PrecoMedio
+FROM Produtos;
+
+-- ROUND = Funcao de arredondamento. ROUND(num, numero da casa depois da virgula que vai começar a arredondar dela para a direita). Se colocar 0 no segundo parametro ele arredonda o numero todo.
+select ROUND(1235.532, 1) as precoMedio;
+
+select ROUND(AVG(precoUnit), 2) as precoMedio
+from Produtos;
+
+-- COUNT = conta o numero de ocorrencias
+select COUNT(descricao)
+from Produtos;
+
+-- qtd de produtos sem categoria
+select COUNT(*) - COUNT(codCat)
+from Produtos as QtdProdutosSemCategoria;
+
+select * from Produtos;
+select * from Categorias;
