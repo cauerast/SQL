@@ -92,6 +92,11 @@ ADD precoUnit MONEY;
 DELETE FROM Produtos
 WHERE codCat = 1 OR codCat = 3 OR codCat = 5;
 
+-- or
+
+DELETE FROM Produtos
+WHERE codCat IN(1, 3, 5);
+
 
 -- 12. Atualizar o preço unitário (precoUnit) com base no codProd usando CASE
 UPDATE Produtos
@@ -115,7 +120,8 @@ INNER JOIN Categorias AS c
 SELECT *
 FROM Categorias AS c
 LEFT JOIN Produtos AS p
-    ON c.codCat = p.codCat;
+    ON p.codCat = c.codCat
+WHERE p.codCat IS NULL;
 
 
 -- 15. Reajustar o preço unitário dos produtos com estoque menor que 400
