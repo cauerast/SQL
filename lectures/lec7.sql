@@ -167,5 +167,10 @@ from Produtos;
 select COUNT(*) - COUNT(codCat)
 from Produtos as QtdProdutosSemCategoria;
 
+-- DISTINCT = selecionar linhas exclusivas
+SELECT DISTINCT(codCat) as categoriasProdutos
+FROM Produtos;
+
+
 select * from Produtos;
 select * from Categorias;
