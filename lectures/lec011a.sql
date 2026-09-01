@@ -8,40 +8,39 @@
 --  f. Um atributo nr_dependentes do tipo inteiro.
 --  g. Todos os atributos da tabela devem ser obrigatórios.
 
--- 2. A tabela acima deve conter as seguintes restrições:
---  a. O atributo código representa a chave primária da tabela;
---  b. O atributo dt_cadastro (data do cadastro) deve ter como valor padrão (default) a data e hora atual do sistema;
---  c. O atributo tipo_cliente deve ser “Titular” ou “Dependente”;
---  d. O atributo nr_dependentes deve ser um inteiro maior ou igual a 0 e <= a 3.
-
-create table TB_CLIENTE (
-  codCliente int CONSTRAINT cod_cliente PRIMARY KEY IDENTITY(1,1),
+CREATE TABLE TB_CLIENTE (
+  codCliente INT NOT NULL,
   nome VARCHAR(50) NOT NULL,
   telefone VARCHAR(20) NOT NULL,
-  tipo_cliente VARCHAR(20) CONSTRAINT tipos_clientes CHECK(tipo_cliente in ('Titular', 'Dependente')) NOT NULL,
-  dt_cadastro DATETIME CONSTRAINT dt_cadastro_cliente DEFAULT GETDATE() NOT NULL,
-  nr_dependentes int 
-    CONSTRAINT nr_dependentes_cliente CHECK(nr_dependentes between 0 and 3) NOT NULL
+  tipo_cliente VARCHAR(20) NOT NULL,
+  dt_cadastro DATETIME NOT NULL,
+  nr_dependentes INT NOT NULL
 )
 
--- OU
 
-CREATE TABLE TB_CLIENTE ( 
-    codCliente INT IDENTITY(1, 1) NOT NULL, 
-    nome VARCHAR(50) NOT NULL, 
-    telefone VARCHAR(20) NOT NULL, 
-    tipo_cliente VARCHAR(20) NOT NULL, 
-    dt_cadastro DATETIME DEFAULT GETDATE() NOT NULL, 
-    nr_dependentes INT NOT NULL, 
-    
-    CONSTRAINT pk_cliente PRIMARY KEY(codCliente), 
-    CONSTRAINT tipos_clientes CHECK(tipo_cliente IN ('Titular', 'Dependente')), 
-    CONSTRAINT nr_dependentes_cliente CHECK(nr_dependentes BETWEEN 0 AND 3) 
-)
+-- 2. A tabela acima deve conter as seguintes restrições:
+--  a. O atributo código representa a chave primária da tabela;
+ALTER TABLE TB_CLIENTE 
+ADD CONSTRAINT pk_codCliente PRIMARY KEY (codCliente); -- nao é possivel usar identity()
+
+--  b. O atributo dt_cadastro (data do cadastro) deve ter como valor padrão (default) a data e hora atual do sistema;
+ALTER TABLE TB_CLIENTE
+ADD CONSTRAINT df_data DEFAULT(GETDATE()) for dt_cadastro
+
+--  c. O atributo tipo_cliente deve ser “Titular” ou “Dependente”;
+alter table TB_CLIENTE
+add constraint chk_cliente check((tipo_cliente in ('Titular', 'Dependente')));
+-- add constraint chk_cliente check((tipo_cliente = 'Titular') OR  (tipo_cliente = 'Dependente'))
+
+--  d. O atributo nr_dependentes deve ser um inteiro maior ou igual a 0 e <= a 3.
+alter table TB_CLIENTE
+add constraint chk_nr_dep check((nr_dependentes >= 0) OR (nr_dependentes <= 3));
+
+
 -- 3. Utilizar comandos SQL de inserção e atualização que tentem verificar e violar as -- restrições acima.
 
-insert into TB_CLIENTE
-values ('caue', 'xx99xxxxx', 'titular', 4); -- viola o tipo_cliente e nr_dependentes
+INSERT INTO TB_CLIENTE
+VALUES ('caue', 'xx99xxxxx', 'titular', 4); -- viola o tipo_cliente e nr_dependentes
 
 -- Exercício 02:
 -- Dado o seguinte esquema relacional:
