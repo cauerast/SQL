@@ -124,3 +124,4 @@ iNSERT INTO Departamentos VALUES (
 
 -- 17. Exclua as tabelas que você criou.
 
+
