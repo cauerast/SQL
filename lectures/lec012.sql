@@ -63,7 +63,7 @@ CREATE TABLE Departamentos (
 CREATE TABLE Projetos (
   cod_proj INT CONSTRAINT pk_cod_proj PRIMARY KEY IDENTITY(100,1),
   nome TEXT NOT NULL,
-  descrcicao VARCHAR(80)
+  descricao VARCHAR(80)
 );
 -- 4
 CREATE TABLE Participacao (
@@ -93,10 +93,10 @@ ADD CONSTRAINT pk_participacao PRIMARY KEY (cod_func, cod_proj)
 -- COMPRAS
 INSERT INTO Departamentos
 VALUES ('CONTAS A PAGAR', 'CONTAS A PAGAR', 5),
-       ('CONTAS A RECEBER', 'A', 5),
-       ('FATURAMENTO', 'A', 5),
-       ('VENDAS', 'A', 5),
-       ('COMPRAS', 'A', 5)
+       ('CONTAS A RECEBER', 'CONTAS A RECEBER', 4),
+       ('FATURAMENTO', 'FATURAMENTO', 3),
+       ('VENDAS', 'VENDAS', 2),
+       ('COMPRAS', 'COMPRAS', 1)
 
 -- 8. Cadastre 5 projetos
 INSERT INTO Projetos
@@ -121,24 +121,67 @@ VALUES ('func1', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2),
 
 
 -- 10. Vincule 3 funcionários para cada um dos projetos cadastrados
-
+INSERT INTO Participacao (cod_func, cod_proj, data_inicio, data_fim)
+VALUES 
+       (2, 100, '2026-01-01', '2026-02-01'),
+       (1, 100, '2026-01-01', '2026-02-01'),
+       (3, 100, '2026-01-01', '2026-02-01'),
+       
+       (4, 101, '2026-01-01', '2026-02-01'),
+       (5, 101, '2026-01-01', '2026-02-01'),
+       (6, 101, '2026-01-01', '2026-02-01'),
+       
+       (7, 102, '2026-01-01', '2026-02-01'),
+       (8, 102, '2026-01-01', '2026-02-01'),
+       (9, 102, '2026-01-01', '2026-02-01'),
+       
+       (10, 103, '2026-01-01', '2026-02-01'),
+       (1, 103, '2026-01-01', '2026-02-01'),
+       (2, 103, '2026-01-01', '2026-02-01'),
+       
+       (3, 104, '2026-01-01', '2026-02-01'),
+       (4, 104, '2026-01-01', '2026-02-01'),
+       (5, 104, '2026-01-01', '2026-02-01');
 
 -- 11. Cadastre os chefes dos departamentos
-
+-- (ja inceridos)
 
 -- 12. Crie um campo para cidade do funcionário com valor padrão sendo 'Franca'
-
+ALTER TABLE Funcionarios
+ADD cidade varchar(80) CONSTRAINT std_cidade DEFAULT('Franca');
 
 -- 13. Cadastre um novo funcionário sem preencher a cidade para testar sua constraint
-
+INSERT INTO Funcionarios
+VALUES ('func11', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2)
 
 -- 14. Crie um novo projeto e vincule 5 funcionários a este projeto
+INSERT INTO Projetos
+VALUES ('Proj6', 'Igreja')
 
+INSERT INTO Participacao
+VALUES (1, 105, '2026-01-01', '2026-02-01'),
+       (5, 105, '2026-01-01', '2026-02-01'),
+       (4, 105, '2026-01-01', '2026-02-01'),
+       (2, 105, '2026-01-01', '2026-02-01'),
+       (3, 105, '2026-01-01', '2026-02-01')
 
 -- 15. Verifique se existe algum funcionário sem departamento, se houver, vincule os funcionários a algum departamento
+SELECT * FROM Funcionarios 
+WHERE cod_dep IS NULL;
 
+UPDATE Funcionarios
+SET cod_dep = 1
+WHERE cod_dep IS NULL;
 
 -- 16. Crie uma restrição para todos os campos Descrição de todas as tabelas que possuem um campo descrição. Esta restrição deverá inserir um valor padrão para este campo.
+ALTER TABLE Departamentos
+ADD CONSTRAINT dft_desc DEFAULT("null") for descricao;
 
+ALTER TABLE Projetos
+ADD CONSTRAINT dft_desc DEFAULT("null") for descricao;
 
 -- 17. Exclua as tabelas que você criou.
+DROP TABLE Funcionarios;
+DROP TABLE Departamentos;
+DROP TABLE Projetos;
+DROP TABLE Participacao;
