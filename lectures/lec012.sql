@@ -91,14 +91,33 @@ ADD CONSTRAINT pk_participacao PRIMARY KEY (cod_func, cod_proj)
 -- FATURAMENTO
 -- VENDAS
 -- COMPRAS
-iNSERT INTO Departamentos VALUES (
-
-)
+INSERT INTO Departamentos
+VALUES ('CONTAS A PAGAR', 'CONTAS A PAGAR', 5),
+       ('CONTAS A RECEBER', 'A', 5),
+       ('FATURAMENTO', 'A', 5),
+       ('VENDAS', 'A', 5),
+       ('COMPRAS', 'A', 5)
 
 -- 8. Cadastre 5 projetos
-
+INSERT INTO Projetos
+VALUES ('Proj1', 'casa'),
+       ('proj2', 'predio'),
+       ('proj3', 'condominio'),
+       ('proj4', 'predio'),
+       ('proj5', 'casa')
 
 -- 9. Cadastre 10 funcionários
+INSERT INTO Funcionarios
+VALUES ('func1', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2),
+       ('func2', '12345678910', '123456789', 'M', 'Auxiliar', 21, 3),
+       ('func3', '12345678910', '123456789', 'F', 'Supervisor', 21, 1),
+       ('func4', '12345678910', '123456789', 'M', 'Auxiliar', 21, 2),
+       ('func5', '12345678910', '123456789', 'M', 'Terceirizado', 21, 3),
+       ('func6', '12345678910', '123456789', 'M', 'Supervisor', 21, 2),
+       ('func7', '12345678910', '123456789', 'F', 'Auxiliar', 21, 3),
+       ('func8', '12345678910', '123456789', 'M', 'Supervisor', 21, 2),
+       ('func9', '12345678910', '123456789', 'M', 'Auxiliar', 21, 1),
+       ('func10', '12345678910', '123456789', 'F', 'Terceirizado', 21, 2)
 
 
 -- 10. Vincule 3 funcionários para cada um dos projetos cadastrados
@@ -123,5 +142,3 @@ iNSERT INTO Departamentos VALUES (
 
 
 -- 17. Exclua as tabelas que você criou.
-
-
