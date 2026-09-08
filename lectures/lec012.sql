@@ -108,15 +108,15 @@ VALUES ('Proj1', 'casa'),
 
 -- 9. Cadastre 10 funcionários
 INSERT INTO Funcionarios
-VALUES ('func1', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2),
-       ('func2', '12345678910', '123456789', 'M', 'Auxiliar', 21, 3),
-       ('func3', '12345678910', '123456789', 'F', 'Supervisor', 21, 1),
-       ('func4', '12345678910', '123456789', 'M', 'Auxiliar', 21, 2),
-       ('func5', '12345678910', '123456789', 'M', 'Terceirizado', 21, 3),
-       ('func6', '12345678910', '123456789', 'M', 'Supervisor', 21, 2),
-       ('func7', '12345678910', '123456789', 'F', 'Auxiliar', 21, 3),
-       ('func8', '12345678910', '123456789', 'M', 'Supervisor', 21, 2),
-       ('func9', '12345678910', '123456789', 'M', 'Auxiliar', 21, 1),
+VALUES ('func1', '1', '1', 'M', 'Terceirizado', 21, 2),
+       ('func2', '12', '12', 'M', 'Auxiliar', 21, 3),
+       ('func3', '123', '123', 'F', 'Supervisor', 21, 1),
+       ('func4', '1234', '1234', 'M', 'Auxiliar', 21, 2),
+       ('func5', '12345', '12345', 'M', 'Terceirizado', 21, 3),
+       ('func6', '123456', '123456', 'M', 'Supervisor', 21, 2),
+       ('func7', '1234567', '1234567', 'F', 'Auxiliar', 21, 3),
+       ('func8', '12345678', '1234444', 'M', 'Supervisor', 21, 2),
+       ('func9', '123456789', '12345678', 'M', 'Auxiliar', 21, 1),
        ('func10', '12345678910', '123456789', 'F', 'Terceirizado', 21, 2)
 
 
@@ -151,7 +151,7 @@ ALTER TABLE Funcionarios
 ADD cidade varchar(80) CONSTRAINT std_cidade DEFAULT('Franca');
 
 -- 13. Cadastre um novo funcionário sem preencher a cidade para testar sua constraint
-INSERT INTO Funcionarios
+INSERT INTO Funcionarios (nome, cpf, rg, sexo, categoria, idade, cod_dep)
 VALUES ('func11', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2)
 
 -- 14. Crie um novo projeto e vincule 5 funcionários a este projeto
@@ -175,13 +175,23 @@ WHERE cod_dep IS NULL;
 
 -- 16. Crie uma restrição para todos os campos Descrição de todas as tabelas que possuem um campo descrição. Esta restrição deverá inserir um valor padrão para este campo.
 ALTER TABLE Departamentos
-ADD CONSTRAINT dft_desc DEFAULT("null") for descricao;
+ADD CONSTRAINT dft_desc DEFAULT('null') for descricao;
 
 ALTER TABLE Projetos
-ADD CONSTRAINT dft_desc DEFAULT("null") for descricao;
+ADD CONSTRAINT dft_desc DEFAULT('null') for descricao;
 
 -- 17. Exclua as tabelas que você criou.
+DROP TABLE Participacao;
 DROP TABLE Funcionarios;
 DROP TABLE Departamentos;
 DROP TABLE Projetos;
-DROP TABLE Participacao;
+
+-- Exercicios de fixacao II
+-- 1. Selecione os nomes e CPFs dos funcionários, junto com os nomes dos departamentos onde eles trabalham.
+-- 2. Selecione os nomes dos funcionários que não gerenciam departamentos.
+-- 3. Quantos funcionários da categoria Auxiliar existem no departamento de Compras?
+-- 4. Quais os nomes e CPFs dos funcionários que foram inseridos em novos projetos no mês de Agosto?
+-- 5. Qual o nome de cada departamento e os nomes dos seus gerentes?
+-- 6. Qual a maior idade e idade média dos funcionários dos departamentos FATURAMENTO, VENDAS ou COMPRAS?
+-- 7. Liste os nomes dos funcionários, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabética do nome do departamento e depois do nome do funcionário.
+-- 8. Liste os nomes dos funcionarios, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabetica do nome do departamento e depos do nome do funcionario.
