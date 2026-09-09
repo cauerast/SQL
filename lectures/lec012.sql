@@ -67,7 +67,7 @@ CREATE TABLE Projetos (
 );
 -- 4
 CREATE TABLE Participacao (
-  -- ex6 pede pra criar composta - cod_participacao INT CONSTRAINT pk_cod_participacao PRIMARY KEY IDENTITY(1,1),
+  
   cod_func INT CONSTRAINT fk_cod_func FOREIGN KEY REFERENCES Funcionarios(cod_func) NOT NULL,
   cod_proj INT CONSTRAINT fk_cod_proj FOREIGN KEY REFERENCES Projetos(cod_proj) NOT NULL,
   data_inicio DATETIME,
@@ -151,8 +151,8 @@ ALTER TABLE Funcionarios
 ADD cidade varchar(80) CONSTRAINT std_cidade DEFAULT('Franca');
 
 -- 13. Cadastre um novo funcionário sem preencher a cidade para testar sua constraint
-INSERT INTO Funcionarios (nome, cpf, rg, sexo, categoria, idade, cod_dep)
-VALUES ('func11', '12345678910', '123456789', 'M', 'Terceirizado', 21, 2)
+INSERT INTO Funcionarios
+VALUES ('func14', '12654645', '1654546', 'M', 'Terceirizado', 21, 2, 'franca')
 
 -- 14. Crie um novo projeto e vincule 5 funcionários a este projeto
 INSERT INTO Projetos
@@ -160,10 +160,10 @@ VALUES ('Proj6', 'Igreja')
 
 INSERT INTO Participacao
 VALUES (1, 105, '2026-01-01', '2026-02-01'),
-       (5, 105, '2026-01-01', '2026-02-01'),
+       (5, 105, '2026-01-01', '2026-10-01'),
        (4, 105, '2026-01-01', '2026-02-01'),
-       (2, 105, '2026-01-01', '2026-02-01'),
-       (3, 105, '2026-01-01', '2026-02-01')
+       (2, 105, '2026-01-01', '2026-03-01'),
+       (3, 105, '2026-01-01', '2026-04-01')
 
 -- 15. Verifique se existe algum funcionário sem departamento, se houver, vincule os funcionários a algum departamento
 SELECT * FROM Funcionarios 
@@ -175,10 +175,10 @@ WHERE cod_dep IS NULL;
 
 -- 16. Crie uma restrição para todos os campos Descrição de todas as tabelas que possuem um campo descrição. Esta restrição deverá inserir um valor padrão para este campo.
 ALTER TABLE Departamentos
-ADD CONSTRAINT dft_desc DEFAULT('null') for descricao;
+ADD CONSTRAINT df_descricao_1 DEFAULT 'nullll' for descricao;
 
 ALTER TABLE Projetos
-ADD CONSTRAINT dft_desc DEFAULT('null') for descricao;
+ADD CONSTRAINT df_descricao_2 DEFAULT 'nullll' for descricao;
 
 -- 17. Exclua as tabelas que você criou.
 DROP TABLE Participacao;
@@ -188,10 +188,49 @@ DROP TABLE Projetos;
 
 -- Exercicios de fixacao II
 -- 1. Selecione os nomes e CPFs dos funcionários, junto com os nomes dos departamentos onde eles trabalham.
+SELECT f.nome as Funcionario, d.nome as Departamento 
+FROM Funcionarios as f 
+INNER JOIN Departamentos as d
+ON f.cod_dep = d.cod_dep
+
 -- 2. Selecione os nomes dos funcionários que não gerenciam departamentos.
+SELECT f.nome as FuncionariosQueNaoGerenciamDep
+FROM Funcionarios as f 
+INNER JOIN Departamentos as d
+ON f.cod_dep = d.cod_dep
+WHERE f.cod_dep IS NULL;
+
 -- 3. Quantos funcionários da categoria Auxiliar existem no departamento de Compras?
+SELECT COUNT(categoria) as qtdAuxiliar
+FROM Funcionarios as f
+WHERE f.categoria = 'Auxiliar';
+
 -- 4. Quais os nomes e CPFs dos funcionários que foram inseridos em novos projetos no mês de Agosto?
+SELECT f.nome, f.cpf
+FROM Funcionarios as f
+INNER JOIN Participacao as p
+ON f.cod_func = p.cod_func
+WHERE p.data_inicio <= '2026-08-01' and p.data_fim >= '2026-08-01';
+
 -- 5. Qual o nome de cada departamento e os nomes dos seus gerentes?
+SELECT d.nome as dep, f.nome as gerente
+FROM Departamentos as d 
+INNER JOIN Funcionarios as f
+ON d.cod_gerente = f.cod_func
+
+
 -- 6. Qual a maior idade e idade média dos funcionários dos departamentos FATURAMENTO, VENDAS ou COMPRAS?
+SELECT MAX(f.idade) as maiorIdade, AVG(f.idade) as mediaIdades
+FROM Funcionarios as f
+INNER JOIN Departamentos as d
+ON f.cod_dep = d.cod_dep
+WHERE d.nome = 'FATURAMENTO' OR 
+      d.nome = 'VENDAS' OR
+      d.nome = 'COMPRAS';
+
 -- 7. Liste os nomes dos funcionários, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabética do nome do departamento e depois do nome do funcionário.
+
+
+
 -- 8. Liste os nomes dos funcionarios, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabetica do nome do departamento e depos do nome do funcionario.
+
