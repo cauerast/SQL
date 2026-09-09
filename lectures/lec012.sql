@@ -229,8 +229,16 @@ WHERE d.nome = 'FATURAMENTO' OR
       d.nome = 'COMPRAS';
 
 -- 7. Liste os nomes dos funcionários, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabética do nome do departamento e depois do nome do funcionário.
-
+SELECT f.nome, d.nome, d.cod_gerente
+FROM Funcionarioas as f
+INNER JOIN Departamentos as d
+ON f.cod_dep = d.cod_dep
+ORDER BY d.nome, f.nome ASC
 
 
 -- 8. Liste os nomes dos funcionarios, nomes dos departamentos em que trabalham e nomes dos gerentes de cada departamento. Liste em ordem alfabetica do nome do departamento e depos do nome do funcionario.
-
+SELECT f.nome, d.nome, d.cod_gerente
+FROM Funcionarioas as f
+INNER JOIN Departamentos as d
+ON f.cod_dep = d.cod_dep
+ORDER BY d.nome, f.nome ASC
