@@ -72,8 +72,29 @@ GO
 -- b. Listar os produtos dos fabricantes do RJ.
 
 -- c. Selecionar de forma exclusiva as categorias que possuem produtos fornecidos para o estado de SP e que estão em categorias inativas.
+GO
+CREATE VIEW view3 as
+SELECT DISTINCT c.descricao
+FROM categorias as c
+INNER JOIN produtos as p
+ON c.codCat = p.codCat
+INNER JOIN fabricantes as f
+ON f.codFabr = p.codFabr
+WHERE f.uf = 'SP';
+GO
 
--- c.1 produtos sem categoria ->
+
+-- c.1 view p/ produtos sem categoria
+GO
+CREATE VIEW viewC1 as
+SELECT p.codCat, p.codFabr, p.codPro, p.descricao, p.preco
+FROM produtos as p
+LEFT JOIN categorias as c
+ON p.codCat = c.codCat
+WHERE p.codCat IS NULL;
+GO
+
+SELECT * FROM viewc1;
 
 -- d. Listar os nomes dos produtos, o preço total dos seus estoques (considerando o preço de venda) e o nome das categorias que eles pertencem. Somente de produtos fabricados em SP.
 
