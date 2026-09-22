@@ -7,9 +7,11 @@ select * from sys.objects
 where type_desc = 'view';
 
 --> to create a view 
+go
 CREATE VIEW vFunc as
 SELECT idFun as cod, nome as NomeEMpregado, cpf, dtNasc as Nascimento
 from funcionario
+go
 
 --> to select a view
 SELECT * FROM vFunc
