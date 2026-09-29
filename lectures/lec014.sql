@@ -134,7 +134,9 @@ nome, salario
 FROM Jogador
 ORDER BY salario ASC
 
----- GROUP BY
+
+---- GROUP BY  -- sempre que formos usar uma funcao no select e outro parametro precisamos de usar o group by para definir pelo que vamos agrupar o resultado
+
 -- qtd de jogadores por posicao
 select posicao, COUNT(*) as quantidade
 FROM Jogador
@@ -145,8 +147,82 @@ SELECT posicao, COUNT(*) as quantidade, MIN(salario) as menorSalario, MAX(salari
 FROM Jogador
 GROUP BY posicao;
 
+-- qtd jogadores por time
+SELECT t.nome as time, COUNT(*) as qtdJogadores
+FROM Time as t
+INNER JOIN Jogador as j
+on t.idTime = j.idTime
+GROUP BY t.nome;
+
+-- media salarial por time
+SELECT t.nome as time, AVG(j.salario) as mediaSalarial
+FROM Time as t
+INNER JOIN Jogador as j
+on t.idTime = j.idTime
+GROUP BY t.nome
+
+-- media salarial por time
+
+---- HAVING -- filtra o group by, 
+-- (WHERE filtra registros)
+-- (HAVING filtra grupos)
+
+-- posicoes com media salarial acima de 70k
+SELECT posicao, AVG(salario) as mediaSalarial
+FROM Jogador
+GROUP BY posicao
+HAVING AVG(salario) > 70000;
+
+-- posicoes de jogadores com salario maior que 50000 que a media resultante é maior que 70000
+SELECT posicao, AVG(salario) as mediaSalarial
+FROM Jogador
+WHERE salario > 50000
+GROUP BY posicao
+HAVING AVG(salario) > 70000;
+
+
 ---- (SUBSELECT)
 -- liste os nomes dos jogadores que tem salario acima da media;
-select nome, salario
-from Jogador
+SELECT nome, salario
+FROM Jogador
 WHERE salario > (select AVG(salario) from Jogador)
+
+---- (SUBSELECT COM IN)
+
+-- id dos times de sp
+SELECT idTime
+FROM Time
+WHERE estado = 'sp';
+
+-- Jogadores de sp, usando subselect
+SELECT *
+FROM Jogador
+WHERE idTime IN (
+  SELECT idTime
+  FROM Time
+  WHERE estado = 'sp'
+)
+
+-- Jogadores de sp sem usar subselect
+SELECT j.*
+FROM Jogador as j
+INNER JOIN Time as t
+on t.idTime = j.idTime
+WHERE t.estado = 'sp'
+
+-- Jogadores que nao sao de sp, usando subselect
+SELECT *
+FROM Jogador
+WHERE idTime NOT IN (
+  SELECT idTime
+  FROM Time
+  WHERE estado = 'sp'
+)
+
+-- Jogadores que nao sao de sp, sem usar subselect
+SELECT j.*
+FROM Jogador as j
+INNER JOIN Time as t
+on t.idTime = j.idTime
+WHERE NOT t.estado = 'sp'
+
