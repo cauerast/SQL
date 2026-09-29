@@ -145,6 +145,7 @@ SELECT posicao, COUNT(*) as quantidade, MIN(salario) as menorSalario, MAX(salari
 FROM Jogador
 GROUP BY posicao;
 
+---- (SUBSELECT)
 -- liste os nomes dos jogadores que tem salario acima da media;
 select nome, salario
 from Jogador
