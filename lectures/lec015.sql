@@ -100,6 +100,12 @@ GROUP BY d.Nome
 
 -- 9. Liste os departamentos dos funcionarios que tem a funcao de 'supervisor';
 SELECT f.PrimeiroNome, d.Nome
-FROM
+FROM Func as f
+INNER JOIN Depto as d
+ON f.CodDepto = d.CodDepto
+WHERE f.Funcao = 'supervisor';
+
 
 -- 10. liste a qtd de funcionarios desta empresa;
+SELECT COUNT(f.CodFunc)
+FROM FUNC
