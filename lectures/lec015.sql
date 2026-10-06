@@ -124,9 +124,20 @@ SELECT AVG(f.salario)
 FROM FUNC
 
 -- 12. Liste a quantidade de funcionarios que trabalham em cada departamento.
+SELECT d.conme as depto, COUNT(f.codFunc) as qtdFunc
+FROM Func as f
+INNER JOIN Depto as d
+ON f.codFund = d.codFunc
+GROUP BY d.nome;
 
-
--- 12 + 1.  Liste o menor salario pago pela empresa em cada departamento.
-
+-- 13.  Liste o menor salario pago pela empresa em cada departamento.
+SELECT d.conme as depto, MIN(f.salario) as menorSalario
+FROM Func as f
+INNER JOIN Depto as d
+ON f.codFund = d.codFunc
+GROUP BY d.nome;
 
 -- 14. Liste o nome completo de todos os funcionarios que nao tenham segundo nome.
+SELECT CONCAT(f.PrimeiroNome, ' ', f.SegundoNome, ' ', f.UltimoNome) as nomeCompleto
+FROM Func as f
+WHERE f.SegundoNome IS NULL;
