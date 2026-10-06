@@ -138,6 +138,28 @@ ON f.codFund = d.codFunc
 GROUP BY d.nome;
 
 -- 14. Liste o nome completo de todos os funcionarios que nao tenham segundo nome.
-SELECT CONCAT(f.PrimeiroNome, ' ', f.SegundoNome, ' ', f.UltimoNome) as nomeCompleto
+SELECT CONCAT(f.PrimeiroNome, ' ', f.UltimoNome) as nomeCompleto
 FROM Func as f
 WHERE f.SegundoNome IS NULL;
+
+-- or 
+
+SELECT CONCAT(f.PrimeiroNome, ' ', f.UltimoNome) as nomeCompleto
+FROM Func as f
+WHERE ISNULL(segundoNome, '') = ''; -- reseolve um problema interno do MSSQL para ter certeza que os dados serão realmente nulos. mudamos o valor de segundoNome para '' e depois comparamos para ver de segundoNome é '', ficando ( ISNULL(segundoNome, '') = '' )
+
+-- 14.b Liste os nomes dos funcionarios e os nomes de seus gerentes
+SELECT f.nome as funcionario, g.nome
+FROM Func as f
+INNER JOIN Depto as d
+ON f.codDepto = d.codDepto
+INNER JOIN Func as g
+ON g.codDepto = f.codDepto -- usando duas vezes a mesma tabela para mostrar dados diferentes
+
+-- 15. Liste os departamentos que possuem mais de 3 funcionarios.
+
+-- 16. Liste o nome do departamento e do funcionario ordenados por departamento e funcionario.
+
+-- 17. Liste os nomes dos funcionarios de moram em recife e que exerçam a função de Telefonista.
+
+-- 18. Liste a localização do departamento e os nomes dos funcionarios que trabalham no departamento pessoal.
