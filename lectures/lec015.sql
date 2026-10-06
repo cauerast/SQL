@@ -41,7 +41,7 @@ values
 
 
 INSERT INTO Func (CodFunc, PrimeiroNome, SegundoNome, UltimoNome, DataNasci, Cidade, Funcao, Salario)
-values (1, 'JOSE', 'MANOEL', 'DA SILVA', '1980/01/01','FRANCA', 'CONTADOR', 1200.00)
+values (1, 'JOSE', 'MANOEL', 'DA SILVA', '1980/01/01' ,'FRANCA', 'CONTADOR', 1200.00)
 
 update func set salario = 1700
 where codFunc = 5
@@ -99,13 +99,34 @@ ON d.CodDepto = f.CodDepto
 GROUP BY d.Nome
 
 -- 9. Liste os departamentos dos funcionarios que tem a funcao de 'supervisor';
-SELECT f.PrimeiroNome, d.Nome
+SELECT f.PrimeiroNome, d.Nome as depto
 FROM Func as f
 INNER JOIN Depto as d
 ON f.CodDepto = d.CodDepto
 WHERE f.Funcao = 'supervisor';
 
+-- 9.1 Liste os departamentos dos funcionarios que tem a funcao de 'supervisor' usando subselect;
+SELECT d.Nome as depto 
+FROM Depto as d 
+WHERE d.CodDepto IN (
+  SELECT f.CodDepto
+  from Func as f
+  where f.Funcao = 'supervisor'
+)
+
 
 -- 10. liste a qtd de funcionarios desta empresa;
 SELECT COUNT(f.CodFunc)
 FROM FUNC
+
+-- 11. Liste o salario medio pago pela empesa.
+SELECT AVG(f.salario)
+FROM FUNC
+
+-- 12. Liste a quantidade de funcionarios que trabalham em cada departamento.
+
+
+-- 12 + 1.  Liste o menor salario pago pela empresa em cada departamento.
+
+
+-- 14. Liste o nome completo de todos os funcionarios que nao tenham segundo nome.
