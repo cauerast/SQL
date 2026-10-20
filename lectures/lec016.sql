@@ -174,10 +174,20 @@ VALUES
 
 
 
--- 1. Liste a qtd total de participantes cadastrados em cada UF e exiba a UF e a quantidade de participantes, ordenando do estado com maior quantidade para o de menor.
+-- 9. Liste a qtd total de participantes cadastrados em cada UF e exiba a UF e a quantidade de participantes, ordenando do estado com maior quantidade para o de menor.
 
--- 2. Liste o tipo de prova e a media de duracao das provas de cada tipo. Exiba somente os tipos de prova cuja media de duuracao seja superior a 60min.
+SELECT uf, COUNT(*) as totalParticipantes
+FROM participante
+GROUP BY uf
+ORDER BY COUNT(*) DESC
 
--- 3. Liste o nome dos participantes e a quantidade de pratos preparados por cada um. Exiba somente os participantes que tenham preparado mais de 2 pratos.
+-- 10. Liste o tipo de prova e a media de duracao das provas de cada tipo. Exiba somente os tipos de prova cuja media de duuracao seja superior a 120min.
 
--- 4. Liste o nome de cada ingrediente e a soma total das quantidades utilizadas nos pratos. Exiba o nome do ingrediente, a unidade de medida e a quantidade total utilizada, ordenando do ingrediente mais utilizado para o menos utilizado. Considere as quantidades separada,emte por unidade de medida.
+SELECT tipo, AVG(tempo_minutos) as duracaoMedia
+FROM prova
+GROUP BY tipo 
+HAVING AVG(tempo_minutos) > 120  -- o having aplica filtros no select depois de agrupado.
+
+-- 11. Liste o nome dos participantes e a quantidade de pratos preparados por cada um. Exiba somente os participantes que tenham preparado mais de 2 pratos.
+
+-- 12. Liste o nome de cada ingrediente e a soma total das quantidades utilizadas nos pratos. Exiba o nome do ingrediente, a unidade de medida e a quantidade total utilizada, ordenando do ingrediente mais utilizado para o menos utilizado. Considere as quantidades separada,emte por unidade de medida.
