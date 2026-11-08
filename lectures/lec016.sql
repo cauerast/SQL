@@ -189,5 +189,15 @@ GROUP BY tipo
 HAVING AVG(tempo_minutos) > 120  -- o having aplica filtros no select depois de agrupado.
 
 -- 11. Liste o nome dos participantes e a quantidade de pratos preparados por cada um. Exiba somente os participantes que tenham preparado mais de 2 pratos.
+SELECT pa.nome, COUNT(pr.id) as qtd_pratos
+FROM participante pa
+INNER JOIN prato pr ON pa.id = pr.id_partic
+GROUP BY pa.id, pa.nome
+HAVING COUNT(pr.id) > 2;
 
--- 12. Liste o nome de cada ingrediente e a soma total das quantidades utilizadas nos pratos. Exiba o nome do ingrediente, a unidade de medida e a quantidade total utilizada, ordenando do ingrediente mais utilizado para o menos utilizado. Considere as quantidades separada,emte por unidade de medida.
+-- 12. Liste o nome de cada ingrediente e a soma total das quantidades utilizadas nos pratos. Exiba o nome do ingrediente, a unidade de medida e a quantidade total utilizada, ordenando do ingrediente mais utilizado para o menos utilizado. Considere as quantidades separadamente por unidade de medida.
+SELECT i.nome as ingrediente, u.unidade_medida, SUM(u.quantidade) as quantidade_total
+FROM ingrediente i
+INNER JOIN utiliza u ON i.id = u.id_ingrediente
+GROUP BY i.id, i.nome, u.unidade_medida
+ORDER BY quantidade_total DESC;
