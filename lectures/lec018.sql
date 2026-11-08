@@ -3,7 +3,20 @@ GO
 USE BdVestibular;
 GO
 
--- 1 e 2
+-- EXERCÍCIO – BANCO DE DADOS VESTIBULAR 
+  
+-- 1. Crie o banco de dados BdVestibular, implementando as tabelas com seus respectivos atributos, chaves primárias e estrangeiras. 
+-- 2. Implemente as seguintes regras de negócio utilizando constraints: 
+-- a) Os cursos devem possuir carga horária de 2800 ou 3600 horas. 
+-- b) Um candidato pode apresentar apenas uma das seguintes situações: Aprovado, Reprovado ou 
+-- Aprovado em 2ª chamada. 
+-- c) Uma inscrição pode apresentar apenas uma das seguintes situações: Aguardando pagamento, 
+-- Cancelado, Encerrado ou Pago. 
+-- d) A data de vencimento do boleto deve ser gerada automaticamente para 10 dias após a data de lançamento. 
+-- e) Cada candidato pode realizar apenas uma inscrição por ano. 
+-- f) A Primeira e a segunda opção de cursos não pode ser igual. 
+-- g) A data de cadastro do candidato é inserida automaticamente com a data do sistema. 
+ 
 CREATE TABLE curso (
   codCur INT CONSTRAINT pk_codCur PRIMARY KEY IDENTITY(1,1),
   nome VARCHAR(80) NOT NULL,
@@ -45,7 +58,8 @@ CREATE TABLE pagamento (
   codIns INT CONSTRAINT fk_codIns FOREIGN KEY REFERENCES inscricao(codIns)
 );
 
--- 3
+
+-- 3. Quando uma nova inscrição for realizada, o sistema deverá registrar a inscrição e gerar automaticamente um boleto de pagamento no banco de dados. 
 BEGIN TRANSACTION;
 
   INSERT INTO inscricao(nota, anoInscr, dataInscr, situacao, codCan, codCur1, codCur2)
@@ -59,7 +73,8 @@ BEGIN TRANSACTION;
 
 COMMIT TRANSACTION;
 
--- 4
+
+-- 4. Após a realização da prova do vestibular, o sistema deverá registrar a nota obtida pelo candidato na inscrição e atualizar a situação do candidato para um dos valores permitidos. 
 BEGIN TRANSACTION;
   UPDATE inscricao
   SET nota = 8.5
@@ -72,7 +87,8 @@ BEGIN TRANSACTION;
 COMMIT TRANSACTION;
 
 
--- 5
+
+-- 5. Quando um pagamento for registrado, o sistema deverá atualizar os dados do pagamento e alterar a situação da inscrição correspondente para "Pago".
 BEGIN TRANSACTION;
 
   UPDATE pagamento
