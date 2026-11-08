@@ -131,6 +131,7 @@ GO
 CREATE VIEW viewProdutosMarcas as
 SELECT TOP 100 PERCENT p.descricao as produto, p.preco, m.nomeMarca as marca
 FROM produtos as p
-INNER JOIN marcas as m ON p.codMarca = m.codMarca
+INNER JOIN marcas as m 
+ON p.codMarca = m.codMarca
 ORDER BY p.descricao;
 GO
