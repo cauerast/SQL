@@ -124,14 +124,14 @@ SELECT AVG(f.salario)
 FROM FUNC
 
 -- 12. Liste a quantidade de funcionarios que trabalham em cada departamento.
-SELECT d.conme as depto, COUNT(f.codFunc) as qtdFunc
+SELECT d.nome as depto, COUNT(f.codFunc) as qtdFunc
 FROM Func as f
 INNER JOIN Depto as d
 ON f.codFund = d.codFunc
 GROUP BY d.nome;
 
 -- 13.  Liste o menor salario pago pela empresa em cada departamento.
-SELECT d.conme as depto, MIN(f.salario) as menorSalario
+SELECT d.nome as depto, MIN(f.salario) as menorSalario
 FROM Func as f
 INNER JOIN Depto as d
 ON f.codFund = d.codFunc
@@ -157,9 +157,25 @@ INNER JOIN Func as g
 ON g.codDepto = f.codDepto -- usando duas vezes a mesma tabela para mostrar dados diferentes
 
 -- 15. Liste os departamentos que possuem mais de 3 funcionarios.
+SELECT d.Nome as Departamento, COUNT(f.CodFunc) as TotalFuncionarios
+FROM Depto d
+INNER JOIN Func f ON d.CodDepto = f.CodDepto
+GROUP BY d.CodDepto, d.Nome
+HAVING COUNT(f.CodFunc) > 3;
 
 -- 16. Liste o nome do departamento e do funcionario ordenados por departamento e funcionario.
+SELECT d.Nome as Departamento, CONCAT(f.PrimeiroNome, ' ', f.SegundoNome, ' ', f.UltimoNome) as Funcionario
+FROM Depto d
+INNER JOIN Func f ON d.CodDepto = f.CodDepto
+ORDER BY d.Nome, f.PrimeiroNome, f.SegundoNome, f.UltimoNome;
 
 -- 17. Liste os nomes dos funcionarios de moram em recife e que exerçam a função de Telefonista.
+SELECT CONCAT(PrimeiroNome, ' ', SegundoNome, ' ', UltimoNome) as NomeCompleto
+FROM Func
+WHERE Cidade = 'RECIFE' AND Funcao = 'TELEFONISTA';
 
 -- 18. Liste a localização do departamento e os nomes dos funcionarios que trabalham no departamento pessoal.
+SELECT d.Localizacao, CONCAT(f.PrimeiroNome, ' ', f.SegundoNome, ' ', f.UltimoNome) as Funcionario
+FROM Depto d
+INNER JOIN Func f ON d.CodDepto = f.CodDepto
+WHERE d.Nome = 'DEPARTAMENTO PESSOAL';
