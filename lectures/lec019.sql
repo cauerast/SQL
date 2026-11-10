@@ -88,7 +88,7 @@ CREATE TABLE Comissao (
 
 -- 6.  Crie comandos para simular transações explícitas nas tabelas para os casos: 
 --   a.  Os registros de financeiro só poderão ser inseridos registro de venda for atualizado para ‘REGISTRADO’ (um campo venda.situacao for atualizado para ‘REGISTRADO’, por exemplo). 
-BEGIN TRANSACTION
+BEGIN TRANSACTION tran6
   BEGIN TRY
 
     UPDATE Venda
@@ -97,13 +97,13 @@ BEGIN TRANSACTION
 
     INSERT INTO Financeiro 
     VALUES (1, '2021-05-21', 100, '2022-03-01', '2022-09-13', 1)
-    COMMIT TRANSACTION;
+    COMMIT TRANSACTION tran6;
 
   END TRY
   BEGIN CATCH
 
     SELECT ERROR_NUMBER() as NumeroErro, ERROR_LINE() as LinhaComErro, ERROR_MESSAGE() as MensagemErro
-    ROLLBACK TRANSACTION;
+    ROLLBACK TRANSACTION tran6;
 
   END CATCH;
 
