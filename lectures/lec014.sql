@@ -160,8 +160,6 @@ INNER JOIN Jogador as j
 on t.idTime = j.idTime
 GROUP BY t.nome
 
--- media salarial por time
-
 ---- HAVING -- filtra o group by, 
 -- (WHERE filtra registros)
 -- (HAVING filtra grupos)
