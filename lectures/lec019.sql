@@ -88,8 +88,8 @@ CREATE TABLE Comissao (
 
 -- 6.  Crie comandos para simular transações explícitas nas tabelas para os casos: 
 --   a.  Os registros de financeiro só poderão ser inseridos registro de venda for atualizado para ‘REGISTRADO’ (um campo venda.situacao for atualizado para ‘REGISTRADO’, por exemplo). 
-BEGIN TRANSACTION tran6
-  BEGIN TRY
+BEGIN TRY
+  BEGIN TRANSACTION tran_a;
 
     UPDATE Venda
     SET situacao = 'REGISTRADO'
@@ -97,19 +97,25 @@ BEGIN TRANSACTION tran6
 
     INSERT INTO Financeiro 
     VALUES (1, '2021-05-21', 100, '2022-03-01', '2022-09-13', 1)
-    COMMIT TRANSACTION tran6;
 
-  END TRY
-  BEGIN CATCH
+  COMMIT TRANSACTION tran_a;
+END TRY
+BEGIN CATCH
 
-    SELECT ERROR_NUMBER() as NumeroErro, ERROR_LINE() as LinhaComErro, ERROR_MESSAGE() as MensagemErro
-    ROLLBACK TRANSACTION tran6;
+  SELECT
+    ERROR_NUMBER() as NumeroErro, 
+    ERROR_LINE() as LinhaErro, 
+    ERROR_MESSAGE() as MensagemErro
 
-  END CATCH;
+  IF XACT_STATE() <> 0
+    ROLLBACK TRANSACTION tran_a;
+
+END CATCH;
 
 --   b.  Após a inserção de cada item da venda, os estoques dos produtos deverão ser atualizados. 
-BEGIN TRANSACTION
-  BEGIN TRY
+BEGIN TRY
+  BEGIN TRANSACTION tran_b;
+
     INSERT INTO VendaProduto (qtde, vl_unit, cod_venda, cod_produto)
     VALUES (5, 25.50, 1, 3)
 
@@ -117,18 +123,25 @@ BEGIN TRANSACTION
     SET estoque = estoque - 5
     WHERE cod_produto = 3
 
-    COMMIT TRANSACTION;
-  END TRY
-  BEGIN CATCH
+  COMMIT TRANSACTION tran_b;
+END TRY
+BEGIN CATCH
 
-    SELECT ERROR_NUMBER() as NumeroErro, ERROR_LINE() as LinhaComErro, ERROR_MESSAGE() as MensagemErro
-    ROLLBACK TRANSACTION
+  SELECT
+    ERROR_NUMBER() as NumeroErro, 
+    ERROR_LINE() as LinhaErro, 
+    ERROR_MESSAGE() as MensagemErro
 
-  END CATCH;
+  IF XACT_STATE() <> 0
+    ROLLBACK TRANSACTION tran_b;
+
+END CATCH
+
 
 --   c.  Quando uma venda for inserida, sua comissão pode ser inserida. 
-BEGIN TRANSACTION
-  BEGIN TRY
+BEGIN TRY
+  BEGIN TRANSACTION tran_c;
+
     INSERT INTO Venda (vl_frete, dt_venda, situacao, cod_cliente, cod_vendedor)
     VALUES (45.00, GETDATE(), 'EM_ABERTO', 1, 2)
 
@@ -137,10 +150,16 @@ BEGIN TRANSACTION
     INSERT INTO Comissao (cod_venda, cod_vendedor, valor)
     VALUES (@NovoCodVenda, 2, 120.00)
 
-    COMMIT TRANSACTION;
-  END TRY
-  BEGIN CATCH
+  COMMIT TRANSACTION tran_c;
+END TRY
+BEGIN CATCH
 
-    SELECT ERROR_NUMBER() as NumeroErro, ERROR_LINE() as LinhaComErro, ERROR_MESSAGE() as MensagemErro
-    ROLLBACK TRANSACTION;
-  END CATCH;
+  SELECT
+    ERROR_NUMBER() as NumeroErro, 
+    ERROR_LINE() as LinhaErro, 
+    ERROR_MESSAGE() as MensagemErro
+
+  IF XACT_STATE() <> 0
+    ROLLBACK TRANSACTION tran_c;
+
+END CATCH
