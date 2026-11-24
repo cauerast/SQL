@@ -12,7 +12,7 @@ CREATE TABLE Jogador (
   nome VARCHAR(80) NOT NULL,
   apelido VARCHAR(40),
   posicao VARCHAR(30),
-  salario DECIMAL(10,2),
+  salario money,
   dataNascimento DATE,
   numeroCamisa INT,
   idTime INT,
