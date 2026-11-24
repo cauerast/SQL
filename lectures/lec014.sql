@@ -35,8 +35,7 @@ VALUES
 ('Grêmio', 'Porto Alegre', 'RS', 1903);
 
 
-INSERT INTO Jogador
-(nome, apelido, posicao, salario, dataNascimento, numeroCamisa, idTime)
+INSERT INTO Jogador (nome, apelido, posicao, salario, dataNascimento, numeroCamisa, idTime)
 VALUES
 ('Marcelo Santos', 'Marcelinho', 'Atacante', 85000, '1998-05-12', 9, 1),
 ('Bruno Oliveira', NULL, 'Goleiro', 55000, '1995-08-20', 1, 1),
